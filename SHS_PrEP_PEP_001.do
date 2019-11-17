@@ -39,7 +39,7 @@ cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 *Load in SHS Survey Data
 import excel "`datapath'/MSM Sexual Health/Data/Copy of Sexual Health Survey SHS 2019-CDR-4TWZB62.xlsx", sheet("Sheet") firstrow allstring clear
 
-
+/// SECTION 1: DEMOGRAPHICS ////
 destring RespondentID, replace
 
 drop CollectorID-CustomData1
@@ -157,12 +157,69 @@ label define Howoldareyou 1"18-24" 2"25-29" 3"30-34" 4"35-39" 5"40-50" ///
 label value Howoldareyou Howoldareyou
 drop AQ AR AS AT AU AV AW AX AY AZ
 
+encode Whatisyourresidencestatusin, gen(Whatisyourresidencestatusin1)
+order Whatisyourresidencestatusin1, after(Howoldareyou)
+drop Whatisyourresidencestatusin
+rename Whatisyourresidencestatusin1 Whatisyourresidencestatusin
+replace Whatisyourresidencestatusin = 2 if BB != ""
+replace Whatisyourresidencestatusin = 3 if BC != ""
+label define Whatisyourresidencestatusin 1"I am a citizen or permanent resident" ///
+										2"I am a student here"  ///
+										3"I am a visitor", modify
+label value Whatisyourresidencestatusin Whatisyourresidencestatusin
+drop BB BC
+
+encode HowlonghaveyoubeeninBarbad, gen(HowlonghaveyoubeeninBarbad1)
+order HowlonghaveyoubeeninBarbad1, after(Whatisyourresidencestatusin)
+drop HowlonghaveyoubeeninBarbad
+rename HowlonghaveyoubeeninBarbad1 HowlonghaveyoubeeninBarbad
+replace HowlonghaveyoubeeninBarbad = 2 if BE != ""
+replace HowlonghaveyoubeeninBarbad = 3 if BF != ""
+replace HowlonghaveyoubeeninBarbad = 4 if BG != ""
+label define HowlonghaveyoubeeninBarbad 1"Less than 2 weeks" ///
+										2"2 weeks to 3 months"  ///
+										3"3 months to 1 year" ///
+										4"more than 1 year", modify
+label value HowlonghaveyoubeeninBarbad HowlonghaveyoubeeninBarbad
+drop BE BF BG
+
+encode Howoftendoyouattendreligiou, gen(Howoftendoyouattendreligiou1)
+order Howoftendoyouattendreligiou1, after(HowlonghaveyoubeeninBarbad)
+drop Howoftendoyouattendreligiou
+rename Howoftendoyouattendreligiou1 Howoftendoyouattendreligiou
+replace Howoftendoyouattendreligiou = 2 if BI != ""
+replace Howoftendoyouattendreligiou = 3 if BJ != ""
+replace Howoftendoyouattendreligiou = 4 if BK != ""
+label define Howoftendoyouattendreligiou 1"Never" ///
+										2"Once a week or more often"  ///
+										3"Once or twice a month" ///
+										4"A few times a year", modify
+label value Howoftendoyouattendreligiou Howoftendoyouattendreligiou
+drop BI BJ BK
+
+*Loop for multiple response
+foreach x in BS BR BQ BP BO BN BM WithwhomdoyouliveTickall  {
+
+encode `x', gen(`x'1)
+recode `x'1 (.=0)
+drop `x'
+order `x'1, after(Howoftendoyouattendreligiou)
+label define `x'1 0"Not selected", add
+label value `x'1 `x'1
+rename `x'1 `x'
+	}
+rename WithwhomdoyouliveTickall live_alone
+rename BM live_mother
+rename BN live_father
+rename BO live_grand_parent
+rename BP live_other_family
+rename BQ live_spouse
+rename BR live_friends
+rename BS live_partner
+
+////////////////////////////////////////////////////////
+
+/// SECTION 2: PrEP Awareness /////////
 
 browse
-
-
-
-
-
-
 
