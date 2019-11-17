@@ -123,8 +123,39 @@ label define Areyou 1"Single" 2"Married" 3"Divorced" 4"Widowed" ///
 label value Areyou Areyou
 drop AE AF AG AH AI AJ
 
+encode Whatisyourmonthlyincomeallo , gen(Whatisyourmonthlyincomeallo1)
+order Whatisyourmonthlyincomeallo1, after(Areyou)
+drop Whatisyourmonthlyincomeallo
+rename Whatisyourmonthlyincomeallo1 Whatisyourmonthlyincomeallo
+replace Whatisyourmonthlyincomeallo = 2 if AL != ""
+replace Whatisyourmonthlyincomeallo = 3 if AM != ""
+replace Whatisyourmonthlyincomeallo = 4 if AN != ""
+replace Whatisyourmonthlyincomeallo = 5 if AO != ""
+label define Whatisyourmonthlyincomeallo 1"Less than 1500" 2"1500-2500" ///
+										3"2501-3500" 4"3501-4500" ///
+										5"More than 4500", modify
+label value Whatisyourmonthlyincomeallo Whatisyourmonthlyincomeallo
+drop AL AM AN AO
 
-
+encode Howoldareyou , gen(Howoldareyou1)
+order Howoldareyou1, after(Whatisyourmonthlyincomeallo)
+drop Howoldareyou
+rename Howoldareyou1 Howoldareyou
+replace Howoldareyou = 2 if AQ != ""
+replace Howoldareyou = 3 if AR != ""
+replace Howoldareyou = 4 if AS != ""
+replace Howoldareyou = 5 if AT != ""
+replace Howoldareyou = 6 if AU != ""
+replace Howoldareyou = 7 if AV != ""
+replace Howoldareyou = 8 if AW != ""
+replace Howoldareyou = 9 if AX != ""
+replace Howoldareyou = 10 if AY != ""
+replace Howoldareyou = 11 if AZ != ""
+label define Howoldareyou 1"18-24" 2"25-29" 3"30-34" 4"35-39" 5"40-50" ///
+							6"51-60" 6"61-64" 7"65-69" 8"70-74" 9"75-79" ///
+							10"80-84" 11"85 and older", modify
+label value Howoldareyou Howoldareyou
+drop AQ AR AS AT AU AV AW AX AY AZ
 
 
 browse
