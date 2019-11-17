@@ -209,17 +209,46 @@ label value `x'1 `x'1
 rename `x'1 `x'
 	}
 rename WithwhomdoyouliveTickall live_alone
+label var live_alone "Live alone"
 rename BM live_mother
+label var live_mother "Live with mother"
 rename BN live_father
+label var live_father "Live with father"
 rename BO live_grand_parent
+label var live_grand_parent "Live with grand parent"
 rename BP live_other_family
+label var live_other_family "Live with Other Family"
 rename BQ live_spouse
+label var live_spouse "Live with Spouse"
 rename BR live_friends
+label var live_friends "Live with Friends"
 rename BS live_partner
+label var live_partner "Live with partner"
 
 ////////////////////////////////////////////////////////
 
 /// SECTION 2: PrEP Awareness /////////
 
-browse
+encode Beforetodayhaveyouheardof, gen(Beforetodayhaveyouheardof1)
+order Beforetodayhaveyouheardof1, after(live_partner)
+drop Beforetodayhaveyouheardof
+rename Beforetodayhaveyouheardof1 Beforetodayhaveyouheardof
+recode Beforetodayhaveyouheardof (1=0)
+replace Beforetodayhaveyouheardof = 1 if BU != ""
+label define Beforetodayhaveyouheardof 0"No" 1"Yes", modify
+label value Beforetodayhaveyouheardof Beforetodayhaveyouheardof
+drop BU
+
+encode HaveyoueverusedPrEP, gen(HaveyoueverusedPrEP1)
+order HaveyoueverusedPrEP1, after(Beforetodayhaveyouheardof)
+drop HaveyoueverusedPrEP
+rename HaveyoueverusedPrEP1 HaveyoueverusedPrEP
+recode HaveyoueverusedPrEP (1=0)
+replace HaveyoueverusedPrEP = 1 if BW != ""
+label define HaveyoueverusedPrEP 0"No" 1"Yes", modify
+label value HaveyoueverusedPrEP HaveyoueverusedPrEP
+drop BW
+
+
+
 
