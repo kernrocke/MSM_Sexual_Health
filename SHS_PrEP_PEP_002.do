@@ -19,11 +19,21 @@ macro drop _all
 set more 1
 set linesize 200
 
+*Setting working directory
+** Dataset to encrypted location
+/*
+WINDOWS OS
+local datapath "X:/OneDrive - The University of the West Indies"
+*/
+*MAC OS
+local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
+*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 
-import excel "C:\Users\Eden\Desktop\Sexual Health Survey SHS 2019.xlsx", sheet("Sheet") firstrow
-save "C:\qda_mph\SHS folder\Sexual Health Survey SHS 2019.dta"
+
+import delimited "`datapath'/MSM Sexual Health/Data/Sexual Health Survey SHS 2019.csv", case(preserve) clear
 label data "The Sexual Health Survey 2019"
-label variable pid "Unique Participant Identifier"
+label variable Respondentid "Unique Participant Identifier"
 label variable Whatgenderwereyouassignedat "Gender at birth "
 label variable Whatgenderdoyouidentifyas "Identifying gender"
 label variable HowdoyoudefineyourselfIn "Sexuality"
