@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	PrEP and PEP Facilitators and Barriers
 **  Analyst:		Kern Rocke
 **	Date Created:	16/11/2019
-**	Date Modified: 	16/11/2019
+**	Date Modified: 	17/11/2019
 **  Algorithm Task: Data Cleaning
 
 
@@ -249,6 +249,82 @@ label define HaveyoueverusedPrEP 0"No" 1"Yes", modify
 label value HaveyoueverusedPrEP HaveyoueverusedPrEP
 drop BW
 
+encode AreyoucurrentlyonPrEP, gen(AreyoucurrentlyonPrEP1)
+order AreyoucurrentlyonPrEP1, after(HaveyoueverusedPrEP)
+drop AreyoucurrentlyonPrEP
+rename AreyoucurrentlyonPrEP1 AreyoucurrentlyonPrEP
+recode AreyoucurrentlyonPrEP (1=0)
+replace AreyoucurrentlyonPrEP = 1 if BY != ""
+label define AreyoucurrentlyonPrEP 0"No" 1"Yes", modify
+label value AreyoucurrentlyonPrEP AreyoucurrentlyonPrEP
+drop BY
 
+encode HowlongwereyouonPrEP, gen(HowlongwereyouonPrEP1)
+order HowlongwereyouonPrEP1, after(HaveyoueverusedPrEP)
+drop HowlongwereyouonPrEP
+rename HowlongwereyouonPrEP1 HowlongwereyouonPrEP
+replace HowlongwereyouonPrEP = 2 if CA != ""
+replace HowlongwereyouonPrEP = 3 if CB != ""
+replace HowlongwereyouonPrEP = 4 if CC != ""
+label define HowlongwereyouonPrEP 1"Less than 3 months" ///
+									2"3 months to 6 months" ///
+									3"7 months to 1 year" ///
+									4"more than 1 year", modify
+label value HowlongwereyouonPrEP HowlongwereyouonPrEP
+drop CA CB CC
+
+encode WhydidyoustopusingPrEPtic, gen(WhydidyoustopusingPrEPtic1)
+order WhydidyoustopusingPrEPtic1, after(HowlongwereyouonPrEP)
+drop WhydidyoustopusingPrEPtic
+rename WhydidyoustopusingPrEPtic1 WhydidyoustopusingPrEPtic
+replace WhydidyoustopusingPrEPtic = 2 if CE != ""
+replace WhydidyoustopusingPrEPtic = 3 if CF != ""
+replace WhydidyoustopusingPrEPtic = 4 if CG != ""
+replace WhydidyoustopusingPrEPtic = 5 if CH != ""
+replace WhydidyoustopusingPrEPtic = 6 if CI != ""
+label define WhydidyoustopusingPrEPtic 1"Cost" ///
+										2"Side-effects" ///
+										3"Someone finding out I was taking it" ///
+										4"Time spent in order to get the medication" ///
+										5"?" ///
+										6"Other", modify										
+label value WhydidyoustopusingPrEPtic WhydidyoustopusingPrEPtic
+drop CE CF CG CH CI
+
+encode HowoftendidyouusePrEP, gen(HowoftendidyouusePrEP1)
+order HowoftendidyouusePrEP1, after(WhydidyoustopusingPrEPtic)
+drop HowoftendidyouusePrEP
+rename HowoftendidyouusePrEP1 HowoftendidyouusePrEP
+replace HowoftendidyouusePrEP = 2 if CK != ""
+replace HowoftendidyouusePrEP = 3 if CL != ""
+replace HowoftendidyouusePrEP = 4 if CM != ""
+replace HowoftendidyouusePrEP = 5 if CN != ""
+replace HowoftendidyouusePrEP = 6 if CO != ""
+replace HowoftendidyouusePrEP = 7 if CP != ""
+label define WhydidyoustopusingPrEPtic 1"Daily" ///
+										2"1-2 times weekly" ///
+										3"3-4 times weekly" ///
+										4"5-6 times weekly" ///
+										5"Before and after sex" ///
+										6"?" ///
+										7"?", modify
+label value WhydidyoustopusingPrEPtic WhydidyoustopusingPrEPtic
+drop CK CL CM CN CO CP
+
+encode WheredidyougetPrEP, gen(WheredidyougetPrEP1)
+order WheredidyougetPrEP1, after(WheredidyougetPrEP)
+drop WheredidyougetPrEP
+rename WheredidyougetPrEP1 WheredidyougetPrEP
+replace WheredidyougetPrEP = 2 if CR != ""
+replace WheredidyougetPrEP = 3 if CS != ""
+replace WheredidyougetPrEP = 4 if CT != ""
+replace WheredidyougetPrEP = 5 if CU != ""
+label define WheredidyougetPrEP 1"?" ///
+									2"PrEP program in Barbados" ///
+									3"?" ///
+									4"Friend" ///
+									5"Other" , modify
+label value WheredidyougetPrEP WheredidyougetPrEP
+drop CR CS CT CU
 
 
