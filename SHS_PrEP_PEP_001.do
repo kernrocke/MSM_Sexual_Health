@@ -327,4 +327,36 @@ label define WheredidyougetPrEP 1"?" ///
 label value WheredidyougetPrEP WheredidyougetPrEP
 drop CR CS CT CU
 
+encode WhileyouwereonPrEPdidyou, gen(WhileyouwereonPrEPdidyou1)
+order WhileyouwereonPrEPdidyou1, after(WheredidyougetPrEP)
+drop WhileyouwereonPrEPdidyou
+rename WhileyouwereonPrEPdidyou1 WhileyouwereonPrEPdidyou
+recode WhileyouwereonPrEPdidyou (1=0)
+replace WhileyouwereonPrEPdidyou = 1 if CW != ""
+label define WhileyouwereonPrEPdidyou 0"No" 1"Yes", modify
+label value WhileyouwereonPrEPdidyou WhileyouwereonPrEPdidyou
+drop CW
+ 
+encode Whydidyouuseornotusecondo, gen(Whydidyouuseornotusecondo1)
+drop Whydidyouuseornotusecondo
+rename Whydidyouuseornotusecondo1 Whydidyouuseornotusecondo
+encode SomepeopleusePrEPtoprevent, gen(SomepeopleusePrEPtoprevent1)
+drop SomepeopleusePrEPtoprevent
+rename SomepeopleusePrEPtoprevent1 SomepeopleusePrEPtoprevent
+order Whydidyouuseornotusecondo SomepeopleusePrEPtoprevent, ///
+		after(WhileyouwereonPrEPdidyou)
+ 
+encode HowlonghaveyoubeenusingPrE, gen(HowlonghaveyoubeenusingPrE1)
+order HowlonghaveyoubeenusingPrE1, after(SomepeopleusePrEPtoprevent)
+drop HowlonghaveyoubeenusingPrE
+rename HowlonghaveyoubeenusingPrE1 HowlonghaveyoubeenusingPrE
+replace HowlonghaveyoubeenusingPrE = 2 if DA != ""
+replace HowlonghaveyoubeenusingPrE = 3 if DB != ""
+replace HowlonghaveyoubeenusingPrE = 4 if DC != ""
+label define HowlonghaveyoubeenusingPrE 1"Less than 3 months" ///
+									2"3 months to 6 months" ///
+									3"7 months to 1 year" ///
+									4"More than 1 year", modify
+label value HowlonghaveyoubeenusingPrE HowlonghaveyoubeenusingPrE
+drop DA DB DC
 
