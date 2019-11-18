@@ -31,9 +31,10 @@ local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
 cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 
 
-import delimited "`datapath'/MSM Sexual Health/Data/Sexual Health Survey SHS 2019.csv", case(preserve) clear
+import excel "`datapath'/MSM Sexual Health/Data/Sexual Health Survey SHS 2019.xlsx", sheet("Sheet") firstrow clear
 label data "The Sexual Health Survey 2019"
-label variable Respondentid "Unique Participant Identifier"
+label variable RespondentID "Unique Participant Identifier"
+order RespondentID, before(Whatgenderwereyouassignedat)
 label variable Whatgenderwereyouassignedat "Gender at birth "
 label variable Whatgenderdoyouidentifyas "Identifying gender"
 label variable HowdoyoudefineyourselfIn "Sexuality"
@@ -64,9 +65,9 @@ label variable AD "Reason for discontinued use: Someone finding out "
 label variable AE "Reason for discontinued use: Time spent in order to get the medication"
 label variable AF "Reason for discontinued use: Increased risk of getting non HIV STIs"
 label variable AG "Other response "
-label variable E "Other response "
-label variable G "Other response "
-label variable I "Other response "
+label variable D "Other response "
+label variable F "Other response "
+label variable H "Other response "
 label variable HowoftendidyouusePrEP "Frequency of PrEP use "
 label variable AI "Other response "
 label variable WheredidyougetPrEP "Where  PrEP was attained "
@@ -176,88 +177,33 @@ rename _1* *
 
 recode Whatgenderwereyouassignedat (1=1) (2=1) (3=0) (4=0)
 label define Whatgenderwereyouassignedat 0 "Male" 1 "Female", modify
-drop E
-drop G
+drop D
+drop F
 label define Whatgenderwereyouassignedat 0"Male" 1"Female", modify
 label value Whatgenderwereyouassignedat Whatgenderwereyouassignedat
-tab2 Whatgenderwereyouassignedat Howoldareyou, row
 
 recode Howoldareyou (1=1) (2=2) (3=3) (4=3) (5=4) (6=5) (7=6) (8=7)
 recode Howoldareyou 3=4
 
-tab2 Whatgenderwereyouassignedat Howoldareyou, row
-
-mean Whatisthehighestlevelofedu
-tab2 Whatgenderwereyouassignedat Whatgenderdoyouidentifyas, row
-
-tab2 HowdoyoudefineyourselfIn Areyou, row
-
-tab2 Howdoyousupportyourself Whatisyourmonthlyincomeallo, row
-
-tab2 HowlongwereyouonPrEP HowoftendidyouusePrEP, row
 
 **Currently using PrEP
 codebook SomepeopleusePrEPtoprevent
 describe SomepeopleusePrEPtoprevent
 summarize SomepeopleusePrEPtoprevent
 
-tab2  HowlonghaveyoubeenusingPrE HowoftendoyouusePrEP, row
-
-
-tab2 WheredoyougetPrEP WherewouldyouprefertogetPr, row
-
-by Whatgenderwereyouassignedat, sort : ci proportions Beforetodayhaveyouheardof, exact
-by Whatgenderwereyouassignedat, sort : ci proportions Beforetodayhaveyouheardof if Whatgenderwereyouassignedat==0, exact
-tabulate  Whatgenderwereyouassignedat HowdoyoudefineyourselfIn, chi2 column
-codebook SinceyoustartedusingPrEPho
-tabulate SinceyoustartedusingPrEPho SinceyouhavestartedusingPrE , chi2 column
- tabulate HaveyoueverusedPrEP SinceyoustartedusingPrEPho , chi2 column
- tabulate SinceyouhavestartedusingPrE BG , chi2 column
-codebook HaveyoueverusedPrEP
-tabulate SinceyoustartedusingPrEPha BI, chi2 column
-logistic Whatgenderwereyouassignedat Howoldareyou
-mean Beforetodayhaveyouheardof
-
-mean SinceyoustartedusingPrEPho
-
-by Whatgenderwereyouassignedat,sort : ci proportions SinceyoustartedusingPrEPho
-by HaveyoueverusedPrEP,sort : ci proportions SinceyoustartedusingPrEPho
 recode HaveyoueverusedPrEP (2=1) (1=0) (3=1)
 label define HaveyoueverusedPrEP 0"Never used" 1"Yes", modify
 label value HaveyoueverusedPrEP HaveyoueverusedPrEP
 recode Howfrequentlydoyoudrinkalco (5=4) (1=3)
-logistic HaveyoueverusedPrEP i.Howfrequentlydoyoudrinkalco
-
-tabulate SinceyoustartedusingPrEPho SinceyouhavestartedusingPrE , chi2 column
-tabulate SinceyouhavestartedusingPrE BG , chi2 column
 
 recode SinceyouhavestartedusingPrE (2=1)
-
-summarize Whatgenderwereyouassignedat, detail
-mean Howoldareyou, over (Whatgenderwereyouassignedat)
-
-by Whatgenderwereyouassignedat,sort : ci proportions Whatisyourmonthlyincomeallo
-
-by Whatgenderwereyouassignedat,sort : ci proportions Howoldareyou
-by Whatgenderwereyouassignedat,sort : ci proportions Beforetodayhaveyouheardof
-
-graph hbar (mean) HaveyoueverusedPrEP, over(Whatgenderwereyouassignedat)
-graph hbar (mean) HaveyoueverusedPrEP, over(Whatgenderwereyouassignedat) over(Whatisyourmonthlyincomeallo)
-graph pie, over(Whatgenderwereyouassignedat)
-
-summarize HowdoyoudefineyourselfIn
-describe HowdoyoudefineyourselfIn
-
 recode Areyou 2=3
 recode Areyou 4=5
-
 recode Whatisyourresidencestatusin 4=3
-
 recode Beforetodayhaveyouheardof 1=0
 recode Beforetodayhaveyouheardof 2=1
 
 label define Beforetodayhaveyouheardof 0 "No" 1 "Yes", modify
-
 label value Beforetodayhaveyouheardof Beforetodayhaveyouheardof
 
 recode AreyoucurrentlyonPrEP 1=0
@@ -265,25 +211,16 @@ recode AreyoucurrentlyonPrEP 2=1
 label define AreyoucurrentlyonPrEP 0 "No" 1 "Yes", modify
 label value AreyoucurrentlyonPrEP AreyoucurrentlyonPrEP
 
-summarize Beforetodayhaveyouheardof
-summarize HaveyoueverusedPrEP
-summarize AreyoucurrentlyonPrEP
-
-summarize Whatisyourreasonfornotusin
 
 recode HowoftendidyouusePrEP 2=3
 recode HowoftendidyouusePrEP 4=5
-
 recode WheredidyougetPrEP 3=4
-
 recode HowlonghaveyoubeenusingPrE 2=1
 recode HowlonghaveyoubeenusingPrE 4=3
 recode HowlonghaveyoubeenusingPrE 6=5
-
 recode WheredoyougetPrEP 2=1
 recode WheredoyougetPrEP 4=3
 recode WheredoyougetPrEP 6=3
-
 recode WherewouldyouprefertogetPr 3=2
 recode WherewouldyouprefertogetPr 5=4
 
