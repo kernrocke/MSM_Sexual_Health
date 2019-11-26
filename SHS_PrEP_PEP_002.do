@@ -8,7 +8,7 @@ cls
 **  Project:      	MSM Sexual Health
 **  Analysts:		Eden Augustus & Kern Rocke
 **	Date Created:	28/07/2019
-**	Date Modified: 	22/11/2019
+**	Date Modified: 	26/11/2019
 **  Algorithm Task: Data Cleaning
 
 
@@ -96,7 +96,7 @@ label variable D "Other response "
 label variable F "Other response "
 label variable H "Other response "
 
-drop D F H AG
+drop D F J H AG
 rename Beforetodayhaveyouheardof prep_heard
 rename HaveyoueverusedPrEP prep_use
 rename AreyoucurrentlyonPrEP prep_current
@@ -203,7 +203,7 @@ label variable CC "(Healthcare providers) Who have you told that you have sex wi
 label variable CD "Other responses "
 
 rename Whohaveyoutoldthatyouhave msm_friend
-rename BX msm_friend
+rename BX msm_family
 rename BY msm_colleagues_work
 rename BZ msm_colleagues_school
 rename CA msm_church
@@ -218,7 +218,7 @@ label variable WhoaretheyTickallapplicab "Who are they : Friends "
 label variable CG "Who are they: Family"
 label variable CH "Who are they: Colleagues work"
 label variable CI "Who are they: Colleagues school "
-label variable CH "Who are they: Partner (s)"
+*label variable CH "Who are they: Partner (s)"
 label variable CJ "Who are they: Church members"
 label variable CK "Who are they: other responses "
 
@@ -227,7 +227,7 @@ rename WhoaretheyTickallapplicab treat_diff_friend
 rename CG treat_diff_family
 rename CH treat_diff_work
 rename CI treat_diff_school
-rename CH treat_diff_partner
+*rename CH treat_diff_partner
 rename CJ treat_diff_church
 
 drop CK
@@ -270,7 +270,7 @@ rename Howmanymenhaveyouhadsexwi msm_sex_amt
 rename Inthelastsixmonthshowman anal_sex_receptive
 rename Inthelast6monthshowmanyt anal_sex_insertive
 
-drop CV CZ
+drop CV CZ DB
 
 *-------------------------------------------------------------------------------
 
@@ -326,9 +326,37 @@ rename EL drug_cocaine
 rename EM drug_heroin
 rename EN drug_Meth
 rename EO drug_pills
-drop EP
+drop EA EP
+
+rename DD drug_popper
+order drug_popper, after(drug_pills)
+rename Inthelast6monthshaveyouin drugs_inject
 
 *-------------------------------------------------------------------------------
+
+rename EJ last_sex_drug
+rename ES paid_sex_paid
+rename Inthepastyearhaveyouever paid_sex_nopay
+order paid_sex_paid, before(paid_sex_nopay)
+
+*HPV
+
+rename EV hpv_hear
+rename AreyouawarethattheHPVvacci hpv_cost
+rename HaveyoureceivedtheHPVvaccin hpv_recieve 
+rename Ifyouhavenotalreadyreceived hpv_no_recieve
+
+*PEP
+rename FA pep_hear
+rename Haveyoueverusedit pep_use
+rename IfyouarenotonPrEPandthec pep_condom
+
+
+drop EZ
+
+*-------------------------------------------------------------------------------
+
+
 
 *Analysis Loop for destring categorical variables
 
@@ -359,7 +387,7 @@ label value prep_use prep_use
 
 
 recode Howfrequentlydoyoudrinkalco (5=4) (1=3)
-recode SinceyouhavestartedusingPrE (2=1)
+recode sex_freq_alcohol (2=1)
 recode Areyou 2=3
 recode Areyou 4=5
 recode Whatisyourresidencestatusin 4=3
@@ -378,7 +406,7 @@ recode prep_location (3=4)
 recode prep_length (2=1) (4=3) (6=5)
 recode prep_location_current (2=1) (4=3) (6=3)
 
-recode WherewouldyouprefertogetPr 3=2
-recode WherewouldyouprefertogetPr 5=4
+recode prep_preference 3=2
+recode prep_preference 5=4
 
 *-----------------------------END-----------------------------------------------

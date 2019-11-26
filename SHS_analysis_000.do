@@ -48,6 +48,9 @@ ANALYSIS NOTES
 
 Consideration for prevalence estimate use estimate and 95% Confidence Intervals
 
+Take a look at the following article
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6440797/pdf/pone.0213740.pdf
+
 */
 
 
