@@ -152,7 +152,7 @@ label variable BC "PrEP barriers: Increased risk of getting non HIV STIs "
 label variable BD "Other response "
 
 label variable SinceyoustartedusingPrEPho "Frequency of condom use while on PrEP"
-/*
+
 label variable SinceyouhavestartedusingPrE "Frequency of sex under the influence of alcohol while on PrEP"
 label variable BG "Frequency of sex under the influence of recreational drugs while on PrEP"
 label variable SinceyoustartedusingPrEPha "STI while on PrEP"
@@ -167,7 +167,7 @@ label variable Whatwouldbeimportanttoyouw "PrEP facilitators"
 label variable BR "Other PrEP facilitators "
 label variable Whenwasthemostrecenttimey "Most recent sexual encounter "
 label variable BT "Other responses"
-*/
+
 rename Doanyofthefollowingworryy barrier_cost
 rename AX barrier_side_effect
 rename AY barrier_finding_out
@@ -178,16 +178,20 @@ rename BC barrier_risk_STI
 
 rename SinceyoustartedusingPrEPho condom_freq
 
-
-
-
+rename SinceyouhavestartedusingPrE sex_freq_alcohol
+rename BG sex_freq_drugs
+rename SinceyoustartedusingPrEPha sti_prep
+rename BI prep_partner
+rename Byhowmany prep_new_partner
+rename Whatisyourreasonfornotusin prep_no_use_reason
+rename Wouldyoubeinterestedinusing prep_interest
+rename Wherewouldyouprefertoaccess prep_preference_access
+rename Whatwouldbeimportanttoyouw prep_import_facilate
+rename Whenwasthemostrecenttimey sex_encounter_recent
 
 drop AV BD BL BP BR BT
 
-
-
-
-
+*-------------------------------------------------------------------------------
 
 label variable Whohaveyoutoldthatyouhave "(Friends) Who have you told that you have sex with men"
 label variable BX "(Family) Who have you told that you have sex with men"
@@ -198,26 +202,61 @@ label variable CB "(PrEP providers) Who have you told that you have sex with men
 label variable CC "(Healthcare providers) Who have you told that you have sex with men"
 label variable CD "Other responses "
 
+rename Whohaveyoutoldthatyouhave msm_friend
+rename BX msm_friend
+rename BY msm_colleagues_work
+rename BZ msm_colleagues_school
+rename CA msm_church
+rename CB msm_prep_provider
+rename CC msm_healthcare
+drop CD 
+
+*-------------------------------------------------------------------------------
+
 label variable Hasanyonetreatedyoudifferent "Have anyone treated you differently who suspected  your sexuality "
 label variable WhoaretheyTickallapplicab "Who are they : Friends "
 label variable CG "Who are they: Family"
 label variable CH "Who are they: Colleagues work"
 label variable CI "Who are they: Colleagues school "
 label variable CH "Who are they: Partner (s)"
-label variable CI "Who are they: Colleagues"
 label variable CJ "Who are they: Church members"
 label variable CK "Who are they: other responses "
+
+rename Hasanyonetreatedyoudifferent treat_different
+rename WhoaretheyTickallapplicab treat_diff_friend
+rename CG treat_diff_family
+rename CH treat_diff_work
+rename CI treat_diff_school
+rename CH treat_diff_partner
+rename CJ treat_diff_church
+
+drop CK
+
+*-------------------------------------------------------------------------------
+
 label variable Wheredoyouhangouttickall "Where do you hang out : Church "
 label variable CM "Where do you hang out : Basketball court"
 label variable CN "Where do you hang out : on the blocks "
 label variable CO "Where do you hang out : On the beach "
-label variable CN "Where do you hang out : On the blocks "
-label variable CN "Where do you hang out : On the blocks "
 label variable CP "Where do you hang out : I stay at home "
 label variable CQ "Where do you hang out : Friend's house "
 label variable CR "Where do you hang out : Bar"
 label variable CS "Where do you hang out : Equals"
 label variable CT "Where do you hang out : Other person "
+
+rename Wheredoyouhangouttickall hang_church
+rename CM hang_basketball_court
+rename CN hang_block
+rename CO hang_beach
+rename CP hang_home
+rename CQ hang_friend_house
+rename CR hang_bar
+rename CS hang_equals
+
+drop CT 
+*-------------------------------------------------------------------------------
+
+
 label variable Areyouinarelationshipwith "Type of relationship "
 label variable CV "Other type of relationship "
 label variable Howmanymenhaveyouhadsexwi "Amount of men had sex with in past 6 months"
@@ -226,6 +265,12 @@ label variable Inthelastsixmonthshowman "In the last six  months, how many time
 label variable Inthelast6monthshowmanyt "In the last 6 months, how many times did you have insertive anal sex (top)"
 label variable DB "Other response "
 
+rename Areyouinarelationshipwith relationship_type
+rename Howmanymenhaveyouhadsexwi msm_sex_amt
+rename Inthelastsixmonthshowman anal_sex_receptive
+rename Inthelast6monthshowmanyt anal_sex_insertive
+
+drop CV CZ
 
 *-------------------------------------------------------------------------------
 
