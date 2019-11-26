@@ -78,6 +78,19 @@ rename U live_spouse
 rename V live_friend
 rename W live_other
 
+rename Whatisthehighestlevelofedu education
+rename Howdoyousupportyourself income_source
+rename Howoldareyou age
+rename Whatisyourmonthlyincomeallo income 
+rename Whatisyourresidencestatusin resident_status
+rename HowlonghaveyoubeeninBarbad length_status
+rename Howoftendoyouattendreligiou religion
+rename WithwhomdoyouliveTickall live_alone
+rename RespondentID pid
+rename Whatgenderdoyouidentifyas gender_identity
+rename HowdoyoudefineyourselfIn sex_identity
+rename Whatgenderwereyouassignedat gender_birth
+
 *-------------------------------------------------------------------------------
 
 *Section 2- PrEP 
@@ -360,23 +373,21 @@ drop EZ
 
 *Analysis Loop for destring categorical variables
 
-foreach x of varlist Whatgenderwereyouassignedat-Ifyouhaveanycommentsonthis {
+foreach x of varlist gender_birth-Ifyouhaveanycommentsonthis {
 encode `x' , gen(_1`x')
 }
-drop Whatgenderwereyouassignedat-Ifyouhaveanycommentsonthis
+drop gender_birth-Ifyouhaveanycommentsonthis
 rename _1* * 
 
 *-------------------------------------------------------------------------------
 
 
-recode Whatgenderwereyouassignedat (1=1) (2=1) (3=0) (4=0)
-label define Whatgenderwereyouassignedat 0 "Male" 1 "Female", modify
+recode gender_birth (1=1) (2=1) (3=0) (4=0)
+label define gender_birth 0 "Male" 1 "Female", modify
+label value gender_birth gender_birth
 
-label define Whatgenderwereyouassignedat 0"Male" 1"Female", modify
-label value Whatgenderwereyouassignedat Whatgenderwereyouassignedat
+recode age (1=1) (2=2) (3=3) (4=3) (5=4) (6=5) (7=6) (8=7)
 
-recode Howoldareyou (1=1) (2=2) (3=3) (4=3) (5=4) (6=5) (7=6) (8=7)
-recode Howoldareyou 3=4
 
 
 **Currently using PrEP
@@ -390,7 +401,7 @@ recode Howfrequentlydoyoudrinkalco (5=4) (1=3)
 recode sex_freq_alcohol (2=1)
 recode Areyou 2=3
 recode Areyou 4=5
-recode Whatisyourresidencestatusin 4=3
+recode resident_status 4=3
 
 recode prep_heard (1=0) (2=1)
 label define prep_heard 0 "No" 1 "Yes", modify
@@ -408,5 +419,16 @@ recode prep_location_current (2=1) (4=3) (6=3)
 
 recode prep_preference 3=2
 recode prep_preference 5=4
+
+recode education (3=6) (2=4) 
+
+gen age_cat = age
+order age_cat, after(age)
+label var age_cat "Age Categories"
+recode age_cat (6/max=5)
+label define age_cat 1"18-24" 2"25-29" 3"30-34" 4"35-39"  5"40+" 
+label value age_cat age_cat 
+
+
 
 *-----------------------------END-----------------------------------------------
