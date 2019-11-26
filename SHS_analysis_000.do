@@ -35,8 +35,21 @@ Objective:
 
 Analysis Plan
 
-Preamble
+PREAMBLE
+
+Justification
+
+To date there has been limited studies focusing on Pre-exposure prophylaxsis and post-exposure prophylaxsis
+among gbMSM in small island developing states. There is an inherent neeed for population based research in 
+resource stricken settings. Currently in the Caribbean there are only two nationwide programmes which allow
+for the distribution of PrEP to help reduce the transmission of HIV. 
+
+ANALYSIS NOTES 
 
 Consideration for prevalence estimate use estimate and 95% Confidence Intervals
 
+*/
+
+
+*----------------------------------END------------------------------------------
 
