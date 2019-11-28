@@ -24,12 +24,12 @@ set linesize 80
 ** Dataset to encrypted location
 
 *WINDOWS OS
-*local datapath "X:/OneDrive - The University of the West Indies"
-*cd "X:/OneDrive - The University of the West Indies"
+local datapath "X:/OneDrive - The University of the West Indies"
+cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
-cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+*local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
+*cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 
 *---------------------------HOUSE KEEPING---------------------------------------
 

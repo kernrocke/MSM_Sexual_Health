@@ -11,7 +11,7 @@ cls
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
 **	Date Created:	28/07/2019
-**	Date Modified: 	27/11/2019
+**	Date Modified: 	28/11/2019
 **  Algorithm Task: Data Analysis for Manuscript and CARPHA Submission
 
 
@@ -26,12 +26,12 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS
-*local datapath "X:/OneDrive - The University of the West Indies"
-*cd "X:/OneDrive - The University of the West Indies"
+local datapath "X:/OneDrive - The University of the West Indies"
+cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
-cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+*local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
+*cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 
 *Load encrypted data for analysis
 use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
@@ -82,11 +82,54 @@ order live_person, after(religion)
 recode relationship_status (1=5) (7=5)
 recode relationship_type (5=2)
 
+*Loop for recoding barriers and facilitators
+foreach x in barrier_cost barrier_side_effect barrier_finding_out ///
+				barrier_time_med barrier_stigma barrier_attitude_staff ///
+				barrier_risk_STI Whatisimportanttoyouwhenge prep_import_facilate  ///
+				{
+
+replace `x' = 0 if prep_use==1 & `x'==.
+
+}
+
+*Recoding pep_use variable
+recode pep_use (.=0)
+recode pep_use (1=0) (2=1)
+label define pep_use 0"No" 1"yes", modify
+label value pep_use pep_use
+
+*Setting up export of results to Excel file
+putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", replace
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
-*Table 1 - PrEP and PEP Characteristics
-tab1 prep_heard - prep_preference
+*TABLE 1 PrEP and PEP CHARACTERISTICS PREVALENCE ESTIMATES
 
+*PrEP characteristics
+proportion prep_use, percent cformat(%2.1f)
+proportion prep_heard, percent cformat(%2.1f)
+proportion prep_current, percent cformat(%2.1f)
+proportion prep_time, percent cformat(%2.1f)
+proportion prep_freq, percent cformat(%2.1f)
+proportion prep_length, percent cformat(%2.1f)
+proportion prep_condom, percent cformat(%2.1f)
+proportion prep_location, percent cformat(%2.1f)
+proportion prep_preference, percent cformat(%2.1f)
+proportion condom_freq, percent cformat(%2.1f)
+
+*Barriers characteristics
+proportion barrier_cost - barrier_risk_STI, percent cformat(%2.1f)
+
+*Facilitators charactertistics
+proportion Whatisimportanttoyouwhenge, percent cformat(%2.1f)
+proportion prep_import_facilate, percent cformat(%2.1f)
+
+*PEP characteristics
+proportion pep_hear, percent cformat(%2.1f)
+proportion pep_use, percent cformat(%2.1f)
+
+////////////////////////////////////////////////////////////////////////////////
 
 *Table 2 - Sociodemographic Characteristics by PrEP Usage
 
@@ -94,7 +137,14 @@ foreach x in gender_identity sex_identity age_cat_new education income_source  /
 			relationship_status income_source relationship_status income ///
 			live_person relationship_type {
 
+tab `x' prep_heard, row nofreq chi2
+*-------------------------------------------------------------------------------
 tab `x' prep_use, row nofreq chi2
+*-------------------------------------------------------------------------------
+tab `x' pep_hear, row nofreq chi2
+*-------------------------------------------------------------------------------
+tab `x' pep_use, row nofreq chi2
+*-------------------------------------------------------------------------------
 }
 
 *-------------------------------------------------------------------------------
@@ -103,138 +153,41 @@ tab `x' prep_use, row nofreq chi2
 
 foreach x in ib4.sex_identity ib2.gender_identity ib6.education i.income_source ///
 				ib6.relationship_status i.age_cat_new i.live_person ///
-				ib3.relationship_type{
+				ib3.relationship_type {
 
 logistic prep_use `x' , vce(robust)
-
+logistic pep_use `x', vce(robust)
 }
 
-
-*
-/*
-Objective #2
-
-To determine the prevalence of the use of PrEP among 
-gbMSM in Barbados
-
-This would be a simple tabulation. It would be he;lpful to look at this also
-using chi square analysis for key variables such as sociodemographics etc. 
-
-*/
-
-//Sociodemographcis
-tab age_cat_new Haveyoueverus~P , col chi2
-tab Whatisyourmon~o Haveyoueverus~P , col chi2
-tab Whatisthehigh~u Haveyoueverus~P , col chi2
-tab Areyou Haveyoueverus~P , col chi2
-
-
-*Note you can now add which ever variables you would like to add now
-
 ////////////////////////////////////////////////////////////////////////////////
 
+*Table 3: MULTIVARIABLE LOGISTIC REGRESSION MODEL (FINAL)
+*-------------------------------------------------------------------------------
+*PrEP
+*Multi-variable binary logistic regression (Socio-demographic Predictors)
+logistic prep_use ib4.sex_identity ib2.gender_identity ib6.education i.income_source	///
+			ib6.relationship_status i.age_cat_new i.live_person 	///
+			, vce(robust) pformat(%4.3f) cformat(%4.2f)
+			
+putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", sheet("PrEP Model") modify
+matrix a = r(table)
+matrix a = a[.,1..21]
+putexcel A8= matrix(a, names)
 
-/*
+*-------------------------------------------------------------------------------
+*PEP
+*Multi-variable binary logistic regression (Socio-demographic Predictors)
+logistic pep_use prep_use ib4.sex_identity ib2.gender_identity ib6.education i.income_source	///
+			ib6.relationship_status i.age_cat_new i.live_person 	///
+			, vce(robust) pformat(%4.3f) cformat(%4.2f)
 
-Objective 3
+putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", sheet("PEP Model") modify
+matrix a = r(table)
+matrix a = a[.,1..21]
+putexcel A8= matrix(a, names)
 
-To identify if an association exists between these three sociodemographic varibles and PrEP awareness
-
-*/
-
-//PrEP awareness
-********************************************************************************
-
-//Bivariable Logistic Regression Models for sociodemographic predictors
-
-*compared to persons over the age of 35
-logistic Beforetodayha~f ib4.age_cat, vce(robust)
-
-*Income variable
-logistic Beforetodayha~f i.Whatisyourmon~o, vce(robust)
-
-*Education
-logistic Beforetodayha~f ib3.Whatisthehigh~u, vce(robust)
-
-*Relationship Status 
-logistic Beforetodayha~f ib5.Areyou, vce(robust)
-
-//Multivariable regression model
-
-*All Sociodemographic variables - Relationship Status excluded (you can include if you prefer)
-logistic Beforetodayha~f ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u , vce(robust)
-
-********************************************************************************
+*-------------------------------------------------------------------------------
 
 
-//PrEP usage
-********************************************************************************
 
-//Bivariable Logistic Regression Models for sociodemographic predictors
-
-*compared to persons over the age of 35
-logistic Haveyoueverus~P ib4.age_cat, vce(robust)
-
-*Income variable
-logistic Haveyoueverus~P i.Whatisyourmon~o, vce(robust)
-
-*Education
-logistic Haveyoueverus~P ib3.Whatisthehigh~u, vce(robust)
-
-*Relationship Status
-logistic Haveyoueverus~P ib5.Areyou, vce(robust)
-
-
-//Multivariable regression model
-
-*All Sociodemographic variables - relationship status excluded (you can include if you prefer)
-logistic Haveyoueverus~P ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u , vce(robust)
-
-********************************************************************************
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-/*
-
-Objective 4
-
- To examine the understanding of overall sexual well-being (sexual behaviour, sexually   transmitted infections (STI) and human immunodeficiency virus (HIV)) in relation to PrEP use among gbMSM in Barbados.
-
-For all independent variables which are used here you need to have in your results a table with the frequency and percentages as you did previously. You can decide which regressions you wish to keep. 
-*/
-
-//Bivariable logistic models
-logistic Haveyoueverus~P Areyouinarela~h , vce(robust)
-logistic Haveyoueverus~P Howmanymenhav~i, vce(robust)
-logistic Haveyoueverus~P Inthelastsixm~n, vce(robust)
-logistic Haveyoueverus~P Howmanyofyour~e, vce(robust)
-logistic Haveyoueverus~P Inthelast6mon~t, vce(robust)
-logistic Haveyoueverus~P Inthelastsixm~u, vce(robust)
-logistic Haveyoueverus~P DD, vce(robust)
-logistic Haveyoueverus~P Inthelast6mon~s, vce(robust)
-logistic Haveyoueverus~P Inthelast6mon~a, vce(robust)
-logistic Haveyoueverus~P Inthelast12mo~u, vce(robust)
-logistic Haveyoueverus~P Haveyoueverha~o, vce(robust)
-logistic Haveyoueverus~P Doyouknowyour~s, vce(robust)
-logistic Haveyoueverus~P Howfrequently~o, vce(robust)
-logistic Haveyoueverus~P Howfrequently~e, vce(robust)
-logistic Haveyoueverus~P Inthepastyear~r, vce(robust)
-
-
-//Multivariable logistic model controlling for age, income and education (Sociodemographics)
-logistic Haveyoueverus~P Areyouinarela~h ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Howmanymenhav~i ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthelastsixm~n ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Howmanyofyour~e ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthelast6mon~t ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthelastsixm~u ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P DD ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthelast6mon~s ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthelast6mon~a ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthelast12mo~u ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Haveyoueverha~o ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Doyouknowyour~s ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Howfrequently~o ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Howfrequently~e ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
-logistic Haveyoueverus~P Inthepastyear~r ib4.age_cat i.Whatisyourmon~o ib3.Whatisthehigh~u, vce(robust)
+*------------------------------------END----------------------------------------
