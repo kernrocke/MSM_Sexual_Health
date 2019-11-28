@@ -1,5 +1,5 @@
 
-*NOTE: This do file should only be run after running SHS8.do
+*NOTE: This do file should only be run after running SHS_PrEP_PEP_002
 
 clear
 capture log close
@@ -7,11 +7,12 @@ cls
 
 **  GENERAL DO-FILE COMMENTS
 **  Program:		SHS_analysis_001.do
-**  Project:      	MSM Sexual Health 
+**  Project:      	MSM Sexual Health
+**	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
 **	Date Created:	28/07/2019
-**	Date Modified: 	04/11/2019
-**  Algorithm Task: Data Analysis for EQUALS  & S-Files Presentation
+**	Date Modified: 	27/11/2019
+**  Algorithm Task: Data Analysis for Manuscript and CARPHA Submission
 
 
 ** DO-FILE SET UP COMMANDS
@@ -19,21 +20,97 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
 
+*Setting working directory
+** Dataset to encrypted location
 
+*WINDOWS OS
+*local datapath "X:/OneDrive - The University of the West Indies"
+*cd "X:/OneDrive - The University of the West Indies"
+
+*MAC OS
+local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
+cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+
+*Load encrypted data for analysis
+use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
+
+*--------------------------HOUSE KEEPING----------------------------------------
+*Recoding variables
+recode gender_birth (1=0)
+recode sex_identity (3=1)
+recode gender_identity (4=3)
+label define gender_identity 1"Female" 2"Male" 3"Transgender", modify
+label value gender_identity gender_identity
 
 *recategorization was done to age due to the fact of low numbers past age 35
-gen age_cat = Howoldareyou
-recode age_cat (4=3) (5/max=4)
-label var age_cat "Age categories (new)"
-label define age_cat 1"18-24" 2"25-29" 3"30-34" 4">35", modify
-label value age_cat age_cat
-tab age_cat
+gen age_cat_new = age
+recode age_cat_new (4=3) (5/max=4)
+label var age_cat_new "Age categories (new)"
+label define age_cat_new 1"18-24" 2"25-29" 3"30-34" 4">35", modify
+label value age_cat_new age_cat_new
+tab age_cat_new
+order age_cat_new, after(age_cat)
+
+*recoding PrEP use variable - place missing values as never used
+recode prep_use (.=0)
+
+*Recoding income source variable
+recode income_source (4/max=3)
+label define income_source 1"Employed full-time" 2"Employed part-time" ///
+							3"Financial support (family/partner)", modify
+label value income_source income_source
+
+*Create living with family variable
+gen live_person = .
+replace live_person = 1 if live_alone == 1
+replace live_person = 2 if live_father == 1
+replace live_person = 2 if live_mother == 1
+replace live_person = 2 if live_grand == 1
+replace live_person = 2 if live_family_other == 1
+replace live_person = 3 if live_spouse == 1
+replace live_person = 4 if live_friend == 1
+label var live_person "Live with family"
+label define live_person 	1"Alone" ///
+							2"Family (mother/father/grandparent/other family member" ///
+							3"Spouse" ///
+							4"Friend"
+label value live_person live_person
+order live_person, after(religion)
+
+recode relationship_status (1=5) (7=5)
+recode relationship_type (5=2)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+*Table 1 - PrEP and PEP Characteristics
+tab1 prep_heard - prep_preference
 
+
+*Table 2 - Sociodemographic Characteristics by PrEP Usage
+
+foreach x in gender_identity sex_identity age_cat_new education income_source  ///
+			relationship_status income_source relationship_status income ///
+			live_person relationship_type {
+
+tab `x' prep_use, row nofreq chi2
+}
+
+*-------------------------------------------------------------------------------
+
+*Bi-variable Logistic regression model loop
+
+foreach x in ib4.sex_identity ib2.gender_identity ib6.education i.income_source ///
+				ib6.relationship_status i.age_cat_new i.live_person ///
+				ib3.relationship_type{
+
+logistic prep_use `x' , vce(robust)
+
+}
+
+
+*
 /*
 Objective #2
 
@@ -46,7 +123,7 @@ using chi square analysis for key variables such as sociodemographics etc.
 */
 
 //Sociodemographcis
-tab age_cat Haveyoueverus~P , col chi2
+tab age_cat_new Haveyoueverus~P , col chi2
 tab Whatisyourmon~o Haveyoueverus~P , col chi2
 tab Whatisthehigh~u Haveyoueverus~P , col chi2
 tab Areyou Haveyoueverus~P , col chi2

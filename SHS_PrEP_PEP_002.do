@@ -6,6 +6,7 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  Program:		SHS_PrEP_002
 **  Project:      	MSM Sexual Health
+**	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analysts:		Eden Augustus & Kern Rocke
 **	Date Created:	28/07/2019
 **	Date Modified: 	26/11/2019
@@ -23,12 +24,12 @@ set linesize 80
 ** Dataset to encrypted location
 
 *WINDOWS OS
-local datapath "X:/OneDrive - The University of the West Indies"
-cd "X:/OneDrive - The University of the West Indies"
+*local datapath "X:/OneDrive - The University of the West Indies"
+*cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-*local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
-*cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
+cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 
 *---------------------------HOUSE KEEPING---------------------------------------
 
@@ -90,6 +91,7 @@ rename RespondentID pid
 rename Whatgenderdoyouidentifyas gender_identity
 rename HowdoyoudefineyourselfIn sex_identity
 rename Whatgenderwereyouassignedat gender_birth
+rename Areyou relationship_status
 
 *-------------------------------------------------------------------------------
 
@@ -399,8 +401,8 @@ label value prep_use prep_use
 
 recode Howfrequentlydoyoudrinkalco (5=4) (1=3)
 recode sex_freq_alcohol (2=1)
-recode Areyou 2=3
-recode Areyou 4=5
+recode relationship_status 2=3
+recode relationship_status 4=5
 recode resident_status 4=3
 
 recode prep_heard (1=0) (2=1)
@@ -429,6 +431,6 @@ recode age_cat (6/max=5)
 label define age_cat 1"18-24" 2"25-29" 3"30-34" 4"35-39"  5"40+" 
 label value age_cat age_cat 
 
-
+save "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", replace
 
 *-----------------------------END-----------------------------------------------
