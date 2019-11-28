@@ -8,7 +8,7 @@ cls
 **	Sub-Project:	PrEP and PEP Facilitators and Barriers
 **  Analyst:		Kern Rocke
 **	Date Created:	26/11/2019
-**	Date Modified: 	26/11/2019
+**	Date Modified: 	28/11/2019
 **  Algorithm Task: Statistical Analysis Plan
 
 
@@ -19,8 +19,7 @@ macro drop _all
 set more 1
 set linesize 150
 
-
-
+*---------------------------------------------------------------------------------------------------------------
 /* 
 
 STATISTICAL ANALYSIS PLAN
@@ -32,8 +31,8 @@ Paper title: Prevalence of use, barriers and faciliators of PrEP uptake
 Objective:
             1) To determine the prevalence of the use of PrEP among gbMSM in Barbados
             2) To identify facilitators and barriers associated with PrEP use among gbMSM in Barbados
-
-Analysis Plan
+*---------------------------------------------------------------------------------------------------------------
+ANALYSIS PLAN
 
 PREAMBLE
 
@@ -46,13 +45,45 @@ for the distribution of PrEP to help reduce the transmission of HIV.
 
 ANALYSIS NOTES 
 
-Consideration for prevalence estimate use estimate and 95% Confidence Intervals
+Statistical Analysis
+Associations between respondent characteristics and PrEP usage were examined using pearson chi-square 
+analysis. Bivariable binary logistic regression methods were used to examine the relationships of indivdual 
+sociodemographic predictors with the primary outcome of PrEP use. The multivariable models included  independent
+variable that were significant in the bivariable models defined as p<0.1 and were potential confounders for the 
+relationship between independent predictors and the outcome of the interest. Collinearity for the multivariable
+regression model was asssed examining correlations between independent variables prior to regression modelling.
+We report adjusted odds ratios and 95% CI controlling all other independent variables in the model. An alpha
+of 0.05 was employed for all analysis and was considered to be statistically significant. All analyses were 
+performed using STATA 16.0 (StataCorp, College Station, Texas). 
+
+*---------------------------------------------------------------------------------------------------------------
+RESULTS SECTION 
 
 Take a look at the following article
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6440797/pdf/pone.0213740.pdf
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6103919/pdf/nihms945211.pdf 
+
+
+Table 1: Prevalence Estimates of PrEP characteristics
+
+Analysis method: Consideration for prevalence estimate use estimate and 95% Confidence Intervals
+
+
+Table 2: Sociodemographic characteristiscs of Barbados Sexual Health Survey
+
+Analysis method: Pearson Chi-Square test 
+
+Characteristics         Total           Never       PrEP Use     p-value
+
+
+Table 3: Multivariable Binary Logistic Regression of PrEP Use and Independent Predictors
+
+Analysis method: Binary Logistic Regression
+
+Predictor       OR      95% CI(OR)      p-value
+
 
 */
 
 
 *----------------------------------END------------------------------------------
-
