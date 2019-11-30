@@ -8,7 +8,7 @@ cls
 **	Sub-Project:	PrEP and PEP Facilitators and Barriers
 **  Analyst:		Kern Rocke
 **	Date Created:	26/11/2019
-**	Date Modified: 	28/11/2019
+**	Date Modified: 	30/11/2019
 **  Algorithm Task: Statistical Analysis Plan
 
 
@@ -81,6 +81,11 @@ Table 3: Multivariable Binary Logistic Regression of PrEP Use and Independent Pr
 Analysis method: Binary Logistic Regression
 
 Predictor       OR      95% CI(OR)      p-value
+
+
+***Create bar graphs showing PrEP characteristics and awareness of PrEP
+Refer to publication:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5617149/pdf/pone.0184014.pdf (black and white)
 
 
 */
