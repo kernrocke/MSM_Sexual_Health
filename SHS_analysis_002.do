@@ -42,6 +42,13 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5617149/pdf/pone.0184014.pdf (black
 
 */
 
+*-------------------------------------------------------------------------------
+
+*Re-labelling of prep awareness variable
+label define prep_heard 0"Unaware of PrEP" 1"Aware of PrEP", modify
+label value prep_heard prep_heard
+
+*-------------------------------------------------------------------------------
 
 *Note: Ensure catplot is installed prior to running analysis
 *catplot produces clustered bar charts
