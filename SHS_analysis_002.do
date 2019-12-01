@@ -67,12 +67,11 @@ catplot prep_heard age_cat_new, ///
                                 graphregion(fcolor(white)) ///
                                 plotregion(fcolor(none) ifcolor(none)) ///
                                 asyvars name(graph_1, replace)
-
+                                
 local nb=`.Graph.plotregion1.barlabels.arrnels'
-forval i=1/`nb' {
-  di "`.Graph.plotregion1.barlabels[`i'].text[1]'"
+qui forval i=1/`nb' {
   .Graph.plotregion1.barlabels[`i'].text[1]="`.Graph.plotregion1.barlabels[`i'].text[1]'%"
 }
-.Graph.drawgraph
+.Graph.drawgraph 
 
 *-------------------------------------------END--------------------------------------------------------------------
