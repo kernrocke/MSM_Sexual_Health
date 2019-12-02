@@ -67,8 +67,9 @@ catplot prep_heard age_cat_new, ///
                                 graphregion(fcolor(white)) ///
                                 plotregion(fcolor(none) ifcolor(none)) ///
                                 asyvars name(graph_1, replace)
-                                
-local nb=`.Graph.plotregion1.barlabels.arrnels'
+
+*The below script may have errors                                
+local nb=`.Graph.plotregion1.barlabels.arrnels' //This line runs troublesome
 qui forval i=1/`nb' {
   .Graph.plotregion1.barlabels[`i'].text[1]="`.Graph.plotregion1.barlabels[`i'].text[1]'%"
 }
