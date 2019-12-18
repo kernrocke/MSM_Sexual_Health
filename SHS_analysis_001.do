@@ -11,7 +11,7 @@ cls
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
 **	Date Created:	28/07/2019
-**	Date Modified: 	28/11/2019
+**	Date Modified: 	18/12/2019
 **  Algorithm Task: Data Analysis for Manuscript and CARPHA Submission
 
 
@@ -27,11 +27,12 @@ set linesize 150
 
 *WINDOWS OS
 local datapath "X:/OneDrive - The University of the West Indies"
+local logpath "X:/OneDrive - The University of the West Indies"
 cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-*local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
-*cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
 
 *Load encrypted data for analysis
 use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
@@ -101,8 +102,10 @@ label value pep_use pep_use
 *Setting up export of results to Excel file
 putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", replace
 
-
 ////////////////////////////////////////////////////////////////////////////////
+
+*Open log file for storing of analysis results
+log using "`logpath'/MSM Sexual Health/Results/Table_1.log"
 
 *TABLE 1 PrEP and PEP CHARACTERISTICS PREVALENCE ESTIMATES
 
@@ -129,7 +132,13 @@ proportion prep_import_facilate, percent cformat(%2.1f)
 proportion pep_hear, percent cformat(%2.1f)
 proportion pep_use, percent cformat(%2.1f)
 
+*Close log file
+log close
+
 ////////////////////////////////////////////////////////////////////////////////
+
+*Open log file for storing of analysis results
+log using "`logpath'/MSM Sexual Health/Results/Table_2.log"
 
 *Table 2 - Sociodemographic Characteristics by PrEP Usage
 
@@ -159,7 +168,13 @@ logistic prep_use `x' , vce(robust)
 logistic pep_use `x', vce(robust)
 }
 
+*Close log file
+log close
+
 ////////////////////////////////////////////////////////////////////////////////
+
+*Open log file for storing of analysis results
+log using "`logpath'/MSM Sexual Health/Results/Table_3.log"
 
 *Table 3: MULTIVARIABLE LOGISTIC REGRESSION MODEL (FINAL)
 *-------------------------------------------------------------------------------
@@ -187,7 +202,8 @@ matrix a = a[.,1..21]
 putexcel A8= matrix(a, names)
 
 *-------------------------------------------------------------------------------
-
+*Close log file
+log close
 
 
 *------------------------------------END----------------------------------------
