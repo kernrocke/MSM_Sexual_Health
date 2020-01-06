@@ -26,13 +26,13 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS
-local datapath "X:/OneDrive - The University of the West Indies"
-local logpath "X:/OneDrive - The University of the West Indies"
-cd "X:/OneDrive - The University of the West Indies"
+*local datapath "X:/OneDrive - The University of the West Indies"
+*local logpath "X:/OneDrive - The University of the West Indies"
+*cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
-*cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
+cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
 
 *Load encrypted data for analysis
 use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
@@ -105,7 +105,7 @@ putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", replace
 ////////////////////////////////////////////////////////////////////////////////
 
 *Open log file for storing of analysis results
-log using "`logpath'/MSM Sexual Health/Results/Table_1.log"
+*log using "`logpath'/MSM Sexual Health/Results/Table_1.log"
 
 *TABLE 1 PrEP and PEP CHARACTERISTICS PREVALENCE ESTIMATES
 
@@ -133,12 +133,12 @@ proportion pep_hear, percent cformat(%2.1f)
 proportion pep_use, percent cformat(%2.1f)
 
 *Close log file
-log close
+*log close
 
 ////////////////////////////////////////////////////////////////////////////////
 
 *Open log file for storing of analysis results
-log using "`logpath'/MSM Sexual Health/Results/Table_2.log"
+*log using "`logpath'/MSM Sexual Health/Results/Table_2.log"
 
 *Table 2 - Sociodemographic Characteristics by PrEP Usage
 
@@ -169,12 +169,12 @@ logistic pep_use `x', vce(robust)
 }
 
 *Close log file
-log close
+*log close
 
 ////////////////////////////////////////////////////////////////////////////////
 
 *Open log file for storing of analysis results
-log using "`logpath'/MSM Sexual Health/Results/Table_3.log"
+*log using "`logpath'/MSM Sexual Health/Results/Table_3.log"
 
 *Table 3: MULTIVARIABLE LOGISTIC REGRESSION MODEL (FINAL)
 *-------------------------------------------------------------------------------
@@ -203,7 +203,9 @@ putexcel A8= matrix(a, names)
 
 *-------------------------------------------------------------------------------
 *Close log file
-log close
+*log close
 
+*Save data in encrypted location
+save "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_002.dta", replace
 
 *------------------------------------END----------------------------------------

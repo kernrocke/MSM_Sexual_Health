@@ -53,7 +53,7 @@ label value prep_heard prep_heard
 *Note: Ensure catplot is installed prior to running analysis
 *catplot produces clustered bar charts
 
-catplot prep_heard age_cat_new, ///
+catplot prep_heard education, ///
                                 percent(prep_heard) recast(bar) ///
                                 var1opts(label(labsize(small))) ///
                                 var2opts(label(labsize(small)) relabel(`r(relabel)')) ///
