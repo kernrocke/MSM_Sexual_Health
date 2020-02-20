@@ -83,6 +83,30 @@ tab `x' prep_time , col chi2
 
 	}
 
+	
+	
+*Selecting those who are currently on the PrEP program
+
+preserve
+keep if prep_location_current==3
+
+foreach x in Inthelast12monthshaveyou Wasthetest test_syphillis test_gonorrhoea ///
+			test_chlamydia test_lymphog test_htlv1 test_htlv2 test_hepB ///
+			test_hepC HaveyoueverhadaHumanImmuno Howoftendoyougettestedfor ///
+			DoyouknowyourHIVstatus sti_prep test_sti_type{
+			
+tab `x'
+
+}
+
+restore
+
+/*
+Note: There are no observations for those on the PrEP programme who confirmed 
+		for any sti test (syphillis gonorrhoea chlamydia lymphog htlv1 htlv2 
+		Hep B Hep C
+
+	
 *Close log file
 log close
 *-----------------------------END-----------------------------------------------
