@@ -35,7 +35,7 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University 
 cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
 
 *Load encrypted data for analysis
-use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
+use "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
 
 *--------------------------HOUSE KEEPING----------------------------------------
 *Recoding variables

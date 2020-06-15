@@ -30,12 +30,12 @@ set linesize 80
 
 *MAC OS
 local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
-local graphpath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies/MSM Sexual Health/Visualization"
-cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies/MSM Sexual Health/Results"
+local graphpath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies/Manuscripts/MSM Sexual Health/Visualizations"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies/MSM Sexual Health/Results"
 
 *-------------------------------------------------------------------------------
 *Load encrypted data for analysis
-use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_002.dta", clear
+use "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_002.dta", clear
 
 /*
 ***Create bar graphs showing PrEP characteristics and awareness of PrEP
@@ -64,73 +64,109 @@ label value sex_identity sex_identity
 *Note: Ensure catplot is installed prior to running analysis
 *catplot produces clustered bar charts
 
-catplot prep_heard age_cat_new, ///
-                                percent(prep_heard) recast(bar) ///
-                                var1opts(label(labsize(small))) ///
-                                var2opts(label(labsize(small)) relabel(`r(relabel)')) ///
-                                ytitle("Percent (%)", size(small)color(black)) ///
-                                title("Age", span size(medium) color(black)) ///
-                                yscale(off) ///
-                                ylabel(, angle(horizontal) nogrid) ///
-                                blabel(bar, format(%4.1f) size(small)) ///
-                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) ///
-                                legend(on region(fcolor(none) lcolor(none))) clegend(on) ///
-                                graphregion(fcolor(white)) ///
-                                plotregion(fcolor(none) ifcolor(none)) ///
+*Graph 1
+
+#delimit ;
+catplot prep_heard age_cat_new, 
+                                percent(prep_heard) recast(bar) 
+                                var1opts(label(labsize(small))) 
+                                var2opts(label(labsize(small)) relabel(`r(relabel)')) 
+                                ytitle("Percent (%)", size(small)color(black)) 
+                                title("Age", span size(medium) color(black))
+                                yscale(off) 
+                                ylabel(, angle(horizontal) nogrid) 
+                                blabel(bar, format(%4.1f) size(small)) 
+                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) 
+                                legend(on region(fcolor(none) lcolor(none))) clegend(on) 
+                                graphregion(fcolor(white)) 
+                                plotregion(fcolor(none) ifcolor(none)) 
                                 asyvars name(graph_1, replace) saving(graph_1, replace)
+								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+
+	;
+#delimit cr
 								
-								
-catplot prep_heard education, ///
-                                percent(prep_heard) recast(bar) ///
-                                var1opts(label(labsize(small))) ///
-                                var2opts(label(labsize(small)) relabel(`r(relabel)')) ///
-                                ytitle("Percent (%)", size(small)color(black)) ///
-                                title("Education", span size(medium) color(black)) ///
-                                yscale(off) ///
-                                ylabel(, angle(horizontal) nogrid) ///
-                                blabel(bar, format(%4.1f) size(small)) ///
-                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) ///
-                                legend(on region(fcolor(none) lcolor(none))) clegend(on) ///
-                                graphregion(fcolor(white)) ///
-                                plotregion(fcolor(none) ifcolor(none)) ///
+*-------------------------------------------------------------------------------
+
+*Graph 2
+#delimit ;								
+catplot prep_heard education, 
+                                percent(prep_heard) recast(bar) 
+                                var1opts(label(labsize(small))) 
+                                var2opts(label(labsize(small)) relabel(`r(relabel)')) 
+                                ytitle("Percent (%)", size(small)color(black)) 
+                                title("Education", span size(medium) color(black)) 
+                                yscale(off) 
+                                ylabel(, angle(horizontal) nogrid) 
+                                blabel(bar, format(%4.1f) size(small)) 
+                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) 
+                                legend(on region(fcolor(none) lcolor(none))) clegend(on) 
+                                graphregion(fcolor(white)) 
+                                plotregion(fcolor(none) ifcolor(none)) 
                                 asyvars name(graph_2, replace) saving(graph_2, replace)
-								
-								
-catplot prep_heard sex_identity, ///
-                                percent(prep_heard) recast(bar) ///
-                                var1opts(label(labsize(small))) ///
-                                var2opts(label(labsize(small)) relabel(`r(relabel)')) ///
-                                ytitle("Percent (%)", size(small)color(black)) ///
-                                title("Sexual Identity", span size(medium) color(black)) ///
-                                yscale(off) ///
-                                ylabel(, angle(horizontal) nogrid) ///
-                                blabel(bar, format(%4.1f) size(small)) ///
-                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) ///
-                                legend(on region(fcolor(none) lcolor(none))) clegend(on) ///
-                                graphregion(fcolor(white)) ///
-                                plotregion(fcolor(none) ifcolor(none)) ///
+								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+	;
+#delimit cr
+*-------------------------------------------------------------------------------
+*Graph 3								
+#delimit ;								
+catplot prep_heard sex_identity, 
+                                percent(prep_heard) recast(bar) 
+                                var1opts(label(labsize(small))) 
+                                var2opts(label(labsize(small)) relabel(`r(relabel)')) 
+                                ytitle("Percent (%)", size(small)color(black)) 
+                                title("Sexual Identity", span size(medium) color(black)) 
+                                yscale(off) 
+                                ylabel(, angle(horizontal) nogrid) 
+                                blabel(bar, format(%4.1f) size(small)) 
+                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) 
+                                legend(on region(fcolor(none) lcolor(none))) clegend(on) 
+                                graphregion(fcolor(white)) 
+                                plotregion(fcolor(none) ifcolor(none)) 
                                 asyvars name(graph_3, replace) saving(graph_3, replace)
+								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+
+	;
+#delimit cr
 								
 								
-catplot prep_heard relationship_status, ///
-                                percent(prep_heard) recast(bar) ///
-                                var1opts(label(labsize(small))) ///
-                                var2opts(label(labsize(small)) relabel(`r(relabel)')) ///
-                                ytitle("Percent (%)", size(small)color(black)) ///
-                                title("Relationship Status", span size(medium) color(black)) ///
-                                yscale(off) ///
-                                ylabel(, angle(horizontal) nogrid) ///
-                                blabel(bar, format(%4.1f) size(small)) ///
-                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) ///
-                                legend(on region(fcolor(none) lcolor(none))) clegend(on) ///
-                                graphregion(fcolor(white)) ///
-                                plotregion(fcolor(none) ifcolor(none)) ///
+*-------------------------------------------------------------------------------
+*Graph 4								
+#delimit ;								
+catplot prep_heard relationship_status, 
+                                percent(prep_heard) recast(bar) 
+                                var1opts(label(labsize(small))) 
+                                var2opts(label(labsize(small)) relabel(`r(relabel)')) 
+                                ytitle("Percent (%)", size(small)color(black)) 
+                                title("Relationship Status", span size(medium) color(black)) 
+                                yscale(off) 
+                                ylabel(, angle(horizontal) nogrid) 
+                                blabel(bar, format(%4.1f) size(small)) 
+                                bar(1, fcolor(black)) bar(2, fcolor(khaki)) intensity(75) bargap(20) 
+                                legend(on region(fcolor(none) lcolor(none))) clegend(on) 
+                                graphregion(fcolor(white)) 
+                                plotregion(fcolor(none) ifcolor(none)) 
                                 asyvars name(graph_4, replace) saving(graph_4, replace)
+								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+
+	;
+#delimit cr								
 								
-*Combine graphs
-graph combine graph_1 graph_2 graph_3 graph_4, col(2)				///
-												graphregion(fcolor(white)) ///
-												name(graph_combine, replace)		///
-												saving(graph_combine, replace)
-												
+*-------------------------------------------------------------------------------
+								
+*Combine graphs - Graph 5
+#delimit ; 
+graph combine graph_1 graph_2 graph_3 graph_4, col(2)				
+			graphregion(fcolor(white)) 
+			name(graph_combine, replace)		
+			saving(graph_combine, replace)
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+			graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+	;
+#delimit cr
+graph export "`graphpath'/Demographics_PrEP.png", as(png)
 *----------------------------------END------------------------------------------

@@ -101,6 +101,19 @@ tab `x'
 
 restore
 
+*-------------------------------------------------------------------------------
+
+*How do PrEP users compare with Non PREP users with regards to sti and hiv screening? 
+
+foreach x in Inthelast12monthshaveyou Wasthetest test_syphillis test_gonorrhoea ///
+			test_chlamydia test_lymphog test_htlv1 test_htlv2 test_hepB ///
+			test_hepC HaveyoueverhadaHumanImmuno Howoftendoyougettestedfor ///
+			DoyouknowyourHIVstatus sti_prep test_sti_type{
+			
+tab `x' prep_use, col chi2
+
+	}
+*-------------------------------------------------------------------------------
 /*
 Note: There are no observations for those on the PrEP programme who confirmed 
 		for any sti test (syphillis gonorrhoea chlamydia lymphog htlv1 htlv2 

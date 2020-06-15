@@ -25,12 +25,12 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS
-local datapath "X:/OneDrive - The University of the West Indies"
-cd "X:/OneDrive - The University of the West Indies"
+*local datapath "X:/OneDrive - The University of the West Indies"
+*cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-*local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
-*cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
+cd "/Users/kernrocke/OneDrive - The University of the West Indies"
 
 *Load encrypted data for analysis
 use "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
