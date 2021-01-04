@@ -7,9 +7,9 @@ cls
 **  Program:		SHS_PrEP_002
 **  Project:      	MSM Sexual Health
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
-**  Analysts:		Eden Augustus & Kern Rocke
+**  Analysts:		Kern Rocke
 **	Date Created:	28/07/2019
-**	Date Modified: 	26/11/2019
+**	Date Modified: 	04/01/2021
 **  Algorithm Task: Data Cleaning
 
 
@@ -24,17 +24,18 @@ set linesize 80
 ** Dataset to encrypted location
 
 *WINDOWS OS
-local datapath "X:/OneDrive - The University of the West Indies"
-cd "X:/OneDrive - The University of the West Indies"
+*local datapath "X:/OneDrive - The University of the West Indies"
+*cd "X:/OneDrive - The University of the West Indies"
 
 *MAC OS
-*local datapath "/Users/kernrocke/OneDrive - The University of the West Indies"
-*cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
+cd "/Users/kernrocke/OneDrive - The University of the West Indies"
+
 
 *---------------------------HOUSE KEEPING---------------------------------------
 
 *Load in data import 
-import excel "`datapath'/MSM Sexual Health/Data/Sexual Health Survey SHS 2019.xlsx", sheet("Sheet") firstrow clear
+import excel "`datapath'/Manuscripts/MSM Sexual Health/Data/Sexual Health Survey SHS 2019.xlsx", sheet("Sheet") firstrow clear
 
 *Label dataset for metadata purposes
 label data "The Sexual Health Survey 2019"
@@ -384,13 +385,26 @@ rename _1* *
 *-------------------------------------------------------------------------------
 
 
-recode gender_birth (1=1) (2=1) (3=0) (4=0)
+recode gender_birth (1=1) (2=0) (3=0) (4=0)
 label define gender_birth 0 "Male" 1 "Female", modify
 label value gender_birth gender_birth
 
+*Remove females from the dataset.
+keep if gender_birth == 0
+
+*Recode age categories
 recode age (1=1) (2=2) (3=3) (4=3) (5=4) (6=5) (7=6) (8=7)
 
+gen age_cat = age
+order age_cat, after(age)
+label var age_cat "Age Categories"
+recode age_cat (6/max=5)
+label define age_cat 1"18-24" 2"25-29" 3"30-34" 4"35-39"  5"40+" 
+label value age_cat age_cat 
 
+*Minor cleaning of education variable.
+recode education (3=6) (2=4) 
+*-------------------------------------------------------------------------------
 
 **Currently using PrEP
 
@@ -422,15 +436,9 @@ recode prep_location_current (2=1) (4=3) (6=3)
 recode prep_preference 3=2
 recode prep_preference 5=4
 
-recode education (3=6) (2=4) 
+*-------------------------------------------------------------------------------
 
-gen age_cat = age
-order age_cat, after(age)
-label var age_cat "Age Categories"
-recode age_cat (6/max=5)
-label define age_cat 1"18-24" 2"25-29" 3"30-34" 4"35-39"  5"40+" 
-label value age_cat age_cat 
-
-save "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", replace
+*Save dataset
+save "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", replace
 
 *-----------------------------END-----------------------------------------------

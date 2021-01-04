@@ -8,7 +8,7 @@ cls
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
 **	Date Created:	15/06/2020
-**	Date Modified: 	15/06/2020
+**	Date Modified: 	04/01/2021
 **  Algorithm Task: Table 5 for Manuscript Submissin
 
 
@@ -56,3 +56,10 @@ tab `x' prep_useage, row nofreq chi2
 *-------------------------------------------------------------------------------
 }
 restore
+
+*-------------------------------------------------------------------------------
+
+*Save dataset
+save "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_003.dta", replace
+
+*-------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
 **	Date Created:	02/08/2020
-**	Date Modified: 	02/08/2020
+**	Date Modified: 	04/01/2021
 **  Algorithm Task: Calculation of the HIRI MSM Index
 
 
@@ -33,7 +33,7 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University 
 cd "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies"
 
 *Load encrypted data for analysis
-use "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_001.dta", clear
+use "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_002.dta", clear
 
 
 *-------------------------------------------------------------------------------
@@ -100,9 +100,10 @@ proportion hiri_cat
 
 *-------------------------------------------------------------------------------
 
+*Save dataset
+save "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_003.dta", replace
 
-
-
+*-------------------------------------------------------------------------------
 
 
 

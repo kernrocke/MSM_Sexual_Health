@@ -11,7 +11,7 @@ cls
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
 **	Date Created:	28/07/2019
-**	Date Modified: 	18/12/2019
+**	Date Modified: 	04/01/2021
 **  Algorithm Task: Data Analysis for Manuscript and CARPHA Submission
 
 
@@ -110,27 +110,27 @@ putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", replace
 *TABLE 1 PrEP and PEP CHARACTERISTICS PREVALENCE ESTIMATES
 
 *PrEP characteristics
-proportion prep_use, percent cformat(%2.1f)
-proportion prep_heard, percent cformat(%2.1f)
-proportion prep_current, percent cformat(%2.1f)
-proportion prep_time, percent cformat(%2.1f)
-proportion prep_freq, percent cformat(%2.1f)
-proportion prep_length, percent cformat(%2.1f)
-proportion prep_condom, percent cformat(%2.1f)
-proportion prep_location, percent cformat(%2.1f)
-proportion prep_preference, percent cformat(%2.1f)
-proportion condom_freq, percent cformat(%2.1f)
+proportion prep_use, cformat(%2.1f)
+proportion prep_heard, cformat(%2.1f)
+proportion prep_current, cformat(%2.1f)
+proportion prep_time, cformat(%2.1f)
+proportion prep_freq, cformat(%2.1f)
+proportion prep_length, cformat(%2.1f)
+proportion prep_condom, cformat(%2.1f)
+proportion prep_location, cformat(%2.1f)
+proportion prep_preference, cformat(%2.1f)
+proportion condom_freq, cformat(%2.1f)
 
 *Barriers characteristics
-proportion barrier_cost - barrier_risk_STI, percent cformat(%2.1f)
+proportion barrier_cost - barrier_risk_STI, cformat(%2.1f)
 
 *Facilitators charactertistics
-proportion Whatisimportanttoyouwhenge, percent cformat(%2.1f)
-proportion prep_import_facilate, percent cformat(%2.1f)
+proportion Whatisimportanttoyouwhenge, cformat(%2.1f)
+proportion prep_import_facilate, cformat(%2.1f)
 
 *PEP characteristics
-proportion pep_hear, percent cformat(%2.1f)
-proportion pep_use, percent cformat(%2.1f)
+proportion pep_hear, cformat(%2.1f)
+proportion pep_use, cformat(%2.1f)
 
 *Close log file
 *log close
@@ -184,7 +184,7 @@ logistic prep_use ib4.sex_identity ib2.gender_identity ib6.education i.income_so
 			ib6.relationship_status i.age_cat_new i.live_person 	///
 			, vce(robust) pformat(%4.3f) cformat(%4.2f)
 			
-putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", sheet("PrEP Model") modify
+putexcel set "`datapath'/Manuscripts/MSM Sexual Health/Data/SHS_Results.xlsx", sheet("PrEP Model") modify
 matrix a = r(table)
 matrix a = a[.,1..21]
 putexcel A8= matrix(a, names)
@@ -196,7 +196,7 @@ logistic pep_use prep_use ib4.sex_identity ib2.gender_identity ib6.education i.i
 			ib6.relationship_status i.age_cat_new i.live_person 	///
 			, vce(robust) pformat(%4.3f) cformat(%4.2f)
 
-putexcel set "`datapath'/MSM Sexual Health/Data/SHS_Results.xlsx", sheet("PEP Model") modify
+putexcel set "`datapath'/Manuscripts/MSM Sexual Health/Data/SHS_Results.xlsx", sheet("PEP Model") modify
 matrix a = r(table)
 matrix a = a[.,1..21]
 putexcel A8= matrix(a, names)
@@ -206,6 +206,6 @@ putexcel A8= matrix(a, names)
 *log close
 
 *Save data in encrypted location
-save "`datapath'/MSM Sexual Health/Data/MSM_PrEP_PEP_002.dta", replace
+save "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_002.dta", replace
 
 *------------------------------------END----------------------------------------
