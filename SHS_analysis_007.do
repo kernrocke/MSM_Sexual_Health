@@ -35,9 +35,19 @@ use "`datapath'/Manuscripts/MSM Sexual Health/Data/MSM_PrEP_PEP_003.dta", clear
 
 *-------------------------------------------------------------------------------
 
+*Clean income variable
+gen income_new = .
+replace income_new = 1 if income == 4
+replace income_new = 2 if income == 1
+replace income_new = 3 if income == 2 | income == 3
+replace income_new = 4 if income == 5
+label var income_new "Monthly Income"
+label define income_new 1"Less than 1500" 2"1500-2500" 3"2501-4500" 4"More than 4500"
+label value income_new income_new
+
 *Table 1- Sociodemographic characteristics of study participants 
 
-foreach x in age_cat gender_identity sex_identity education income ///
+foreach x in age_cat gender_identity sex_identity education income_new ///
 			 income_source relationship_status {
 	
 	tab `x'
@@ -90,7 +100,7 @@ label var prep_location_new "PrEP Location"
 label define prep_location_new 1"Friend" 2"PrEP program" 3"Other"
 label value prep_location_new prep_location_new
 
-foreach x in prep_time prep_freq_new prep_location_new{
+foreach x in prep_time prep_length prep_freq_new prep_location_new{
 			
 			proportion `x', over(prep_pro) cformat(%9.3f)
 			}
