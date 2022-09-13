@@ -64,7 +64,7 @@ foreach x in prep_current prep_use prep_heard {
 
 *Table 2 - Sexual behaviour and drug use behaviour among used for the HIRI-MSM 
 
-foreach x in hiri_cat Inthelast6monthshowmanys anal_sex_receptive Howmanyofyourmalesexpartne ///
+foreach x in hiri_cat msm_sex_amt anal_sex_receptive Howmanyofyourmalesexpartne ///
 			 anal_sex_insertive Inthelastsixmonthshaveyou drug_popper{
 			 
 		tab `x'
@@ -106,7 +106,7 @@ foreach x in prep_time prep_length prep_freq_new prep_location_new{
 			}
 *-------------------------------------------------------------------------------
 
-*Table 4 - Bivariable Logistic Regressions for sociodemographic associations to PrEP use 
+*Table 4 - Bivariable Logistic Regressions for sociodemographic associations to PrEP use (Current and Former)
 
 foreach x in ib4.education i.income_source ib6.relationship_status i.age_cat ///
 			 i.live_person ib4.sex_identity {
@@ -115,3 +115,30 @@ foreach x in ib4.education i.income_source ib6.relationship_status i.age_cat ///
 			 }
 *-------------------------------------------------------------------------------		 
 			 
+gen male_partner =. 
+replace male_partner = 2 if Inthelast6monthshowmanys != 1 & Inthelast6monthshowmanys != 5 & Inthelast6monthshowmanys != .
+replace male_partner = 0 if Inthelast6monthshowmanys == 5
+replace male_partner = 1 if Inthelast6monthshowmanys == 1
+
+*-------------------------------------------------------------------------------
+
+gen prep_cat =.
+replace prep_cat = 0 if prep_use == 0
+replace prep_cat = 2 if prep_current == 1
+replace prep_cat = 1 if prep_use == 1 & prep_current == 0
+label define prep_cat 0"None prep user" 1"Former prep user" 2"Current prep user"
+label value prep_cat prep_cat
+
+gen live_person_new = live_person
+recode live_person_new (3=2)
+label define live_person_new 1"Live alone" 2"Live with family/spouse" 4"Live with friend"
+label value live_person_new live_person_new
+tab live_person_new
+
+*Table 5 - Bivariable Logistic Regressions for sociodemographic associations to PrEP use (Former vs Current)
+cls
+foreach x in ib4.education i.income_source ib6.relationship_status i.age_cat ///
+			 i.live_person_new ib4.sex_identity {
+			 
+			 mlogit prep_cat `x', vce(robust) cformat(%9.2f) rrr nolog
+			 }

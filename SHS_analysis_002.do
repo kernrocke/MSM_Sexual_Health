@@ -5,7 +5,7 @@ capture log close
 cls
 
 **  GENERAL DO-FILE COMMENTS
-**  Program:		SHS_analysis_001.do
+**  Program:		SHS_analysis_002.do
 **  Project:      	MSM Sexual Health
 **	Sub-Project:	Prevalence, Barriers and Facilitators to PrEP and PEP 
 **  Analyst:		Kern Rocke
